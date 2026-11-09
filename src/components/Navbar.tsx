@@ -2,7 +2,12 @@
 "use client";
 
 import Link from "next/link";
-import { useAuth, UserButton, SignInButton, SignUpButton } from "@clerk/nextjs";
+import {
+  useAuth,
+  UserButton,
+  SignInButton,
+  SignUpButton,
+} from "@clerk/nextjs";
 
 export default function Navbar() {
   const { isLoaded, isSignedIn } = useAuth();
@@ -10,33 +15,63 @@ export default function Navbar() {
   return (
     <nav className="border-b border-white/10 sticky top-0 z-50 bg-[#0F0A0A]/80 backdrop-blur">
       <div className="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+
+        {/* LOGO */}
         <Link href="/" className="flex items-center gap-2">
           <div className="w-9 h-9 bg-yellow-400 rounded-lg flex items-center justify-center text-black font-bold text-lg">
             ನ
           </div>
+
           <span className="text-xl font-bold tracking-wide">
             Nammavaru
           </span>
         </Link>
 
+        {/* NAVIGATION LINKS */}
         <div className="hidden md:flex items-center gap-8 text-sm text-white/70">
+
           <Link href="/#features" className="hover:text-yellow-400 transition">
             Features
           </Link>
+
           <Link href="/#how" className="hover:text-yellow-400 transition">
             How it works
           </Link>
+
           <Link href="/about" className="hover:text-yellow-400 transition">
             About
           </Link>
-          <Link href="/join" className="hover:text-yellow-400 transition">
-            Join
-          </Link>
+
+          {isLoaded && (
+            isSignedIn ? (
+              <Link
+                href="/community"
+                className="text-yellow-400 font-semibold hover:text-yellow-300 transition"
+              >
+                Dashboard
+              </Link>
+            ) : (
+              <Link href="/join" className="hover:text-yellow-400 transition">
+                Join
+              </Link>
+            )
+          )}
         </div>
 
+        {/* AUTHENTICATION */}
         <div className="flex items-center gap-3">
+
           {!isLoaded ? null : isSignedIn ? (
-            <UserButton />
+            <>
+              <Link
+                href="/community"
+                className="md:hidden bg-yellow-400 text-black text-sm font-semibold px-4 py-2 rounded-full hover:bg-yellow-300 transition"
+              >
+                Dashboard
+              </Link>
+
+              <UserButton />
+            </>
           ) : (
             <>
               <SignInButton mode="modal">
@@ -52,6 +87,7 @@ export default function Navbar() {
               </SignUpButton>
             </>
           )}
+
         </div>
       </div>
     </nav>
