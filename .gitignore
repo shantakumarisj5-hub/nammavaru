@@ -39,3 +39,10 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+.neon
+# Local AI tool configuration
+.agents/
+.claude/
+
+# Temporary ZIP files
+*.zip
